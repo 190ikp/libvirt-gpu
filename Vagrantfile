@@ -11,7 +11,7 @@ Vagrant.configure("2") do |config|
     config.cache.scope = :box 
   end
 
-  config.vm.box = "ubuntu/bionic64"
+  config.vm.box = "generic/ubuntu1804"
   config.vm.box_check_update = false
 
   config.vm.provider "libvirt" do |v|
@@ -23,9 +23,9 @@ Vagrant.configure("2") do |config|
     config.vm.provider "libvirt" do |v|
       v.name = "gpu-instance-#{i}"
     end
-    config.vm.network "forwarded_port", guest: 80, host: "998#{i}", host_ip: 127.0.0.1
-    config.vm.network "forwarded_port", guest: 443, host: "944#{i}", host_ip: 127.0.0.1
-    config.vm.network "forwarded_port", guest: 22, host: "992#{i}", host_ip: 127.0.0.1
+    config.vm.network "forwarded_port", guest: 80, host: "998#{i}", host_ip: "127.0.0.1"
+    config.vm.network "forwarded_port", guest: 443, host: "944#{i}", host_ip: "127.0.0.1"
+    config.vm.network "forwarded_port", guest: 22, host: "992#{i}", host_ip: "127.0.0.1"
     config.vm.provision "shell" do |s|
       s.privileged = false
       s.path = "guest/setup.sh"
