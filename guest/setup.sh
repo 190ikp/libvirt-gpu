@@ -45,5 +45,5 @@ all() {
   setup_nvml
   setup_docker
   
-  ehco 'Done.'
+  echo 'Done.'
 }
