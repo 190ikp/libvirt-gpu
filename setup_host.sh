@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -euxo pipefail
+set -euo pipefail
 
 # setup for GPU Paththrough
 # see: https://github.com/NVIDIA/deepops/blob/master/virtual/README.md#enabling-virtualization-and-gpu-passthrough
@@ -9,7 +9,7 @@ set -euxo pipefail
 setup_kernel() {
   echo 'Starting kernel setup...'
   sudo sed -i -e \
-    "s/^GRUB_CMDLINE_LINUX=/GRUB_CMDLINE_LINUX="quiet splash intel_iommu=on vfio_iommu_type1.allow_unsafe_interrupts=1 iommu=pt"/g" \
+    "s/^GRUB_CMDLINE_LINUX=\"\"$/GRUB_CMDLINE_LINUX=\"quiet splash intel_iommu=on vfio_iommu_type1.allow_unsafe_interrupts=1 iommu=pt\"/g" \
     /etc/default/grub
   sudo cp conf/vfio-pci.conf /etc/modules-load.d/vfio-pci.conf
 
