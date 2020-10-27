@@ -3,13 +3,17 @@
 
 Vagrant.configure("2") do |config|
 
-  num_instances = 2
+  num_instances = 1
   cpus_per_instances = 4
-  memory_per_instances = 16384
+  memory_per_instances = 8192
 
   if Vagrant.has_plugin?("vagrant-cachier")
     config.cache.scope = :box 
   end
+
+  # if Vagrant.has_plugin?("vagrant-hosts")
+  #   config.vm.provision :hosts, :sync_hosts => true
+  # end
 
   config.vm.box = "generic/ubuntu1804"
   config.vm.box_check_update = false
@@ -22,15 +26,11 @@ Vagrant.configure("2") do |config|
   end
 
   (1..num_instances).each do |i|
-    config.vm.define :"gpu-instance-#{i}" do |g|
-      g.vm.network "forwarded_port", guest: 80, host: "998#{i}", host_ip: "127.0.0.1"
-      g.vm.network "forwarded_port", guest: 443, host: "944#{i}", host_ip: "127.0.0.1"
-      g.vm.network "forwarded_port", guest: 22, host: "992#{i}", host_ip: "127.0.0.1"
-      g.vm.provision "shell" do |s|
-        s.privileged = false
-        s.path = "/vagrant/guest/setup.sh"
-        s.args = ["all"]
-      end
+    config.vm.define :"gpu-instance-#{i}" do |domain|
+      domain.vm.provision "shell", privileged: false, inline: <<-SHELL
+        cd /vagrant
+        ./setup.sh all
+      SHELL
     end
   end
 end

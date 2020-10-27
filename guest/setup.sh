@@ -2,6 +2,18 @@
 
 set -euo pipefail
 
+fix_resolver() {
+  sudo rm -f /etc/netplan/*
+  sudo mv -f conf/netplan.yaml /etc/netplan/01-netcfg.yaml
+  sudo sed -i \
+    -e "s/^DNS=.*$/DNS=8.8.8.8 192.168.122.1/g" \
+    -e "s/^DNSSEC=yes$/DNSSEC=no/g" \
+    /etc/systemd/resolved.conf
+
+  sudo systemctl restart systemd-resolved.service
+  sudo netplan apply
+}
+
 setup_packages() {
 
   sudo add-apt-repository universe
@@ -36,14 +48,19 @@ setup_docker() {
     docker-ce \
     docker-ce-cli \
     containerd.io
+  
+  sudo usermod -aG docker "$USER"
 }
 
 all() {
   echo 'Starting instance setup...'
 
+  fix_resolver
   setup_packages
-  setup_nvml
+  # setup_nvml
   setup_docker
   
   echo 'Done.'
 }
+
+eval "$1"
