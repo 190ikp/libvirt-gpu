@@ -11,10 +11,6 @@ Vagrant.configure("2") do |config|
     config.cache.scope = :box 
   end
 
-  # if Vagrant.has_plugin?("vagrant-hosts")
-  #   config.vm.provision :hosts, :sync_hosts => true
-  # end
-
   config.vm.box = "generic/ubuntu1804"
   config.vm.box_check_update = false
 

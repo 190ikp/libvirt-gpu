@@ -6,7 +6,7 @@ fix_resolver() {
   sudo rm -f /etc/netplan/*
   sudo mv -f conf/netplan.yaml /etc/netplan/01-netcfg.yaml
   sudo sed -i \
-    -e "s/^DNS=.*$/DNS=8.8.8.8 192.168.122.1/g" \
+    -e "s/^DNS=.*$/DNS=131.113.224.8/g" \
     -e "s/^DNSSEC=yes$/DNSSEC=no/g" \
     /etc/systemd/resolved.conf
 
