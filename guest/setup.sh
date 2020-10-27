@@ -26,7 +26,7 @@ setup_packages() {
 }
 
 setup_nvml() {
-  cuda_init.sh for_host
+  ./cuda_init.sh for_host
 }
 
 setup_docker() {
@@ -57,7 +57,7 @@ all() {
 
   fix_resolver
   setup_packages
-  # setup_nvml
+  setup_nvml
   setup_docker
   
   echo 'Done.'
