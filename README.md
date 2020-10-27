@@ -7,6 +7,10 @@
 
 ## 構築手順
 
+### Vagrantのインストール
+
+[`setup_host.sh`](setup_host.sh)の`setup_vagrant`を実行
+
 ### カーネルの設定変更
 
 [`setup_host.sh`](setup_host.sh)の`setup_kernel`を実行
@@ -48,8 +52,7 @@
 3. `sudo update-initramfs -u`を実行する
 4. ホストを再起動
 5. `dmesg | grep -i vfio`を実行する．出力が得られればOK
-6. [`setup_host.sh`](setup_host.sh)の`setup_vagrant`を実行，終わったらログインし直す
-7. [`Vagrantfile`](Vagrantfile)を修正する
+6. [`Vagrantfile`](Vagrantfile)を修正する
   
     環境に合わせて`v.pci`の行を書き換える
 
@@ -71,7 +74,7 @@
     ```
 
     となる
-8. `vagrant up`を実行
+7. `vagrant up`を実行
    
     `cuda-drivers`，`nvidia-container-toolkit`，`docker`がインストールされた状態の仮想マシンが立ち上がる
 
