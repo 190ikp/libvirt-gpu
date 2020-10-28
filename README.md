@@ -84,3 +84,5 @@
 
 - 1つのGPUは1つの仮想マシンにのみ割り当てられる
 - 仮想マシンに割り当てられたGPUは，仮想マシンの起動中にホスト上で使用できない
+- 先にGPU関連のパッケージをアンインストールしておく必要がある(`cuda-drivers`，`nvidia-conatainer-toolkit`など)
+  - でないと仮想マシンの起動時に`NVRM: Attempting to remove minor device 1 with non-zero usage count!`を吐いてフリーズする
