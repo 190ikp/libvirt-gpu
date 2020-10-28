@@ -25,6 +25,13 @@ setup_packages() {
   linux-headers-"$(uname -r)"
 }
 
+setup_sshd() {
+  
+  sudo cp conf/sshd_config /etc/ssh/sshd_config
+  sudo systemctl restart ssh
+
+}
+
 setup_nvml() {
   ./cuda_init.sh for_host
 }
@@ -55,6 +62,7 @@ setup_docker() {
 all() {
   echo 'Starting instance setup...'
 
+  setup_sshd
   fix_resolver
   setup_packages
   setup_nvml
