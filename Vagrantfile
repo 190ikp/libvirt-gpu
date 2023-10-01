@@ -3,7 +3,6 @@
 
 Vagrant.configure("2") do |config|
 
-  num_instances = 1
   cpus_per_instances = 4
   memory_per_instances = 8192
 
@@ -22,20 +21,19 @@ Vagrant.configure("2") do |config|
     v.kvm_hidden = true
   end
 
-  config.vm.define :"gpu-instance-1" do |domain|
+  config.vm.define :"gpu-instance-0" do |domain|
+    domain.vm.hostname = "gpu-instance-0.local"
+    domain.vm.network :forwarded_port, guest: 22, host: "3022", host_ip: "0.0.0.0"
+    domain.vm.network :forwarded_port, guest: 80, host: "3080", host_ip: "0.0.0.0"
+    domain.vm.network :forwarded_port, guest: 443, host: "30443", host_ip: "0.0.0.0"
+    domain.vm.network :forwarded_port, guest: 8080, host: "30080", host_ip: "0.0.0.0"
+
     domain.vm.provider "libvirt" do |v|
+      # set PCI devices
       v.pci :domain => '0x0000', :bus => '0x3b', :slot => '0x00', :function => '0x0'
       v.pci :domain => '0x0000', :bus => '0x3b', :slot => '0x00', :function => '0x1'
       v.pci :domain => '0x0000', :bus => '0x3b', :slot => '0x00', :function => '0x2'
       v.pci :domain => '0x0000', :bus => '0x3b', :slot => '0x00', :function => '0x3'
-    end
-  end
-  config.vm.define :"gpu-instance-2" do |domain|
-    domain.vm.provider "libvirt" do |v|
-      v.pci :domain => '0x0000', :bus => '0xaf', :slot => '0x00', :function => '0x0'
-      v.pci :domain => '0x0000', :bus => '0xaf', :slot => '0x00', :function => '0x1'
-      v.pci :domain => '0x0000', :bus => '0xaf', :slot => '0x00', :function => '0x2'
-      v.pci :domain => '0x0000', :bus => '0xaf', :slot => '0x00', :function => '0x3'
     end
   end
   
