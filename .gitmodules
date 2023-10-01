@@ -1,0 +1,3 @@
+[submodule "guest/cuda"]
+	path = guest/cuda
+	url = https://gist.github.com/b368905ebc7e748d065e5f57d59892df.git

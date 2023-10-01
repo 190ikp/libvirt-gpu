@@ -14,7 +14,7 @@ setup_packages() {
 }
 
 setup_nvml() {
-  ./cuda_init.sh for_host
+  ./cuda/cuda_init.sh for_host
 }
 
 setup_docker() {
