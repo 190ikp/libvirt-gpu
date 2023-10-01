@@ -17,6 +17,20 @@ setup_kernel() {
   echo 'Done. Reboot to enable kernel parameter.'
 }
 
+setup_vfio() {
+  # This script works only with NVIDIA GPUs
+
+  echo "options vfio-pci ids=$(\
+      lspci -nd 10de: |
+        awk '{print $3}' |
+        tr '\n' ',' |
+        sed 's/,$//'\
+      )" |
+    sudo tee /etc/modprobe.d/vfio.conf
+  
+  sudo update-initramfs -u
+}
+
 setup_vagrant() {
   echo 'Starting vagrant setup...'
 
@@ -41,6 +55,18 @@ setup_vagrant() {
 
   echo 'vagrant setup done.'
   echo 'Log out to apply changed permissions.'
+}
+
+print_vgpu() {
+  # This script works only with NVIDIA GPUs
+
+  lspci -Dnd 10de: | awk '{print $1}' | while read -r line; do
+    domain="$(echo $line | cut -d ':' -f 1)"
+    bus=$(echo $line | cut -d ':' -f 2)
+    slot=$(echo $line | cut -d ':' -f 3 | cut -d '.' -f 1)
+    function=$(echo $line | cut -d ':' -f 3 | cut -d '.' -f 2)
+    echo "v.pci :domain => '0x$domain', :bus => '0x$bus', :slot => '0x$slot', :function => '0x$function'"
+  done
 }
 
 eval "$1"

@@ -52,7 +52,12 @@
 3. `sudo update-initramfs -u`を実行する
 4. ホストを再起動
 5. `dmesg | grep -i vfio`を実行する．出力が得られればOK
-6. [`Vagrantfile`](Vagrantfile)を修正する
+
+NVIDIA GPUの場合，1-3までは[`setup_host.sh`](setup_host.sh)の`setup_vfio`を実行することで自動で行われる
+
+### 仮想マシンの起動
+
+1. [`Vagrantfile`](Vagrantfile)を修正する
   
     環境に合わせて`v.pci`の行を書き換える
 
@@ -74,7 +79,9 @@
     ```
 
     となる
-7. `vagrant up`を実行
+
+    NVIDIA GPUの場合は[`setup_host.sh`](setup_host.sh)の`print_vgpu`を実行することでフォーマット済みの文字列を出力できる
+2. `vagrant up`を実行
    
     `cuda-drivers`，`nvidia-container-toolkit`，`docker`がインストールされた状態の仮想マシンが立ち上がる
 
